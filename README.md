@@ -1,7 +1,7 @@
 # dockerizing_rails_app
 Files to dockerizing a rails app, for development and production. It use puma as rails web server. The rails app contains:
 - Development: web and db(postgresql) container
-- Production:  web, db, reverse proxy(nginx) and postgresql backups containers. Backups are stored in S3.
+- Production:  web, db, reverse proxy(nginx) and postgresql backups containers. Backups are stored in S3 and performed daily at 3am.
 
 # Usage
 Copy these files into your rails app directory:
