@@ -1,0 +1,34 @@
+web:
+  volumes:
+    - /app
+  command: puma -C config/puma/production.rb
+  environment:
+    RACK_ENV: production
+    RAILS_ENV: production
+    SECRET_KEY_BASE: "secret_base_key"
+  links:
+    - db
+    - proxy
+
+proxy:
+  image: jospergon/docker-nginx-proxy
+  environment:
+    UPSTREAM_SERVER: web_server_name
+    UPSTREAM_PORT: we_server_port
+  ports:
+    - "80:80"
+
+db:
+  environment:
+    POSTGRES_PASSWORD: "password"
+
+dbbackup:
+  image: jospergon/docker-postgressql-s3-backups:latest
+  environment:
+    AWS_ACCESS_KEY: "aws_access_key"
+    AWS_SECRET_KEY: "aws_secret_key"
+    BUCKET: s3_bucket
+    APPNAME: app_name
+    PGPASSWORD: "password"
+  links:
+    - db
