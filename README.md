@@ -26,15 +26,22 @@ bind the docker machine to the actual shell and run the docker containers for de
 ```
 docker-machine create --driver virtualbox docker-dev
 ```
-2. Bind machine to the actual shell
+2. Stop machine add port forwading to Virtualbox and start machine again
+```
+docker-machine stop docker-dev
+VBoxManage modifyvm "docker-dev" --natpf1 "tcp-port3000,tcp,,3000,,3000";
+VBoxManage modifyvm "docker-dev" --natpf1 "tcp-port5432,tcp,,5432,,5432";
+docker-machine start docker-dev
+```
+3. Bind machine to the actual shell
 ```
 eval "$(docker-machine env docker-dev)"
 ```
-3. Build the containers
+4. Build the containers
 ```
 docker-compose build
 ```
-4. Run the web container
+5. Run the web container
 ```
 docker-compose run --service-ports web
 ```
@@ -42,3 +49,10 @@ The --service-ports option permits to use rails debuggers as byebug or pry.
 
 ## Production
 
+### Amazon EC2
+1. Create ec2 machine
+```
+docker-machine create --driver amazonec2 --amazonec2-access-key "your_access_key" --amazonec2-secret-key "your_secret_key" --amazonec2-region eu-west-1 aws-sandbox
+```
+aws-sandbox: in the name of the machine, replace it for the name that you need.
+--amazonec2-region eu-west-1: Specify your region.
