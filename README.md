@@ -46,13 +46,36 @@ docker-compose build
 docker-compose run --service-ports web
 ```
 The --service-ports option permits to use rails debuggers as byebug or pry.
+6. Migrate database
+```
+docker-compose run web rake db:migrate
+```
 
 ## Production
 
-### Amazon EC2
+### Amazon EC2 
+#### (First deploy)
 1. Create ec2 machine
 ```
 docker-machine create --driver amazonec2 --amazonec2-access-key "your_access_key" --amazonec2-secret-key "your_secret_key" --amazonec2-region eu-west-1 aws-sandbox
 ```
-aws-sandbox: in the name of the machine, replace it for the name that you need.
---amazonec2-region eu-west-1: Specify your region.
+- aws-sandbox: in the name of the machine, replace it for the name that you need.
+- --amazonec2-region eu-west-1: Specify your region.
+2. Build containers
+```
+docker-compose -f docker-compose.yml -f production.yml buld
+```
+3. Run containers
+```
+docker-compose -f docker-compose.yml -f production.yml up -d
+```
+4. Migrate database
+```
+docker-compose -f docker-compose.yml -f production.yml run web rake db:migrate
+```
+
+#### Deploy changes
+```
+docker-compose -f docker-compose.yml -f production.yml buld web
+docker-compose up --no-deps -d web
+```
