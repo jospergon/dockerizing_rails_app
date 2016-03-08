@@ -22,31 +22,32 @@ This script create a virtual machine in Virtualbox with docker installed, foward
 bind the docker machine to the actual shell and run the docker containers for development(web and db containers).
 
 ### Run containers manually:
-1. Create docker machine in virtualbox:
+
+Create docker machine in virtualbox:
 ```
 docker-machine create --driver virtualbox docker-dev
 ```
-2. Stop machine add port forwading to Virtualbox and start machine again
+Stop machine add port forwading to Virtualbox and start machine again
 ```
 docker-machine stop docker-dev
 VBoxManage modifyvm "docker-dev" --natpf1 "tcp-port3000,tcp,,3000,,3000";
 VBoxManage modifyvm "docker-dev" --natpf1 "tcp-port5432,tcp,,5432,,5432";
 docker-machine start docker-dev
 ```
-3. Bind machine to the actual shell
+Bind machine to the actual shell
 ```
 eval "$(docker-machine env docker-dev)"
 ```
-4. Build the containers
+Build the containers
 ```
 docker-compose build
 ```
-5. Run the web container
+Run the web container
 ```
 docker-compose run --service-ports web
 ```
 The --service-ports option permits to use rails debuggers as byebug or pry.
-6. Migrate database
+Migrate database
 ```
 docker-compose run web rake db:migrate
 ```
@@ -63,7 +64,7 @@ docker-machine create --driver amazonec2 --amazonec2-access-key "your_access_key
 - --amazonec2-region eu-west-1: Specify your region.
 2. Build containers
 ```
-docker-compose -f docker-compose.yml -f production.yml buld
+docker-compose -f docker-compose.yml -f production.yml build
 ```
 3. Run containers
 ```
