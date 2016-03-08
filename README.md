@@ -56,21 +56,21 @@ docker-compose run web rake db:migrate
 
 ### Amazon EC2 
 #### (First deploy)
-1. Create ec2 machine
+Create ec2 machine
 ```
 docker-machine create --driver amazonec2 --amazonec2-access-key "your_access_key" --amazonec2-secret-key "your_secret_key" --amazonec2-region eu-west-1 aws-sandbox
 ```
 - aws-sandbox: in the name of the machine, replace it for the name that you need.
 - --amazonec2-region eu-west-1: Specify your region.
-2. Build containers
+Build containers
 ```
 docker-compose -f docker-compose.yml -f production.yml build
 ```
-3. Run containers
+Run containers
 ```
 docker-compose -f docker-compose.yml -f production.yml up -d
 ```
-4. Migrate database
+Migrate database
 ```
 docker-compose -f docker-compose.yml -f production.yml run web rake db:migrate
 ```
