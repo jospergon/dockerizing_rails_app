@@ -5,7 +5,7 @@ RUN apt-get install -y build-essential libpq-dev
 
 COPY Gemfile* /tmp/
 WORKDIR /tmp
-RUN bundle install
+RUN bundle install -j10
 
 ENV app /app
 RUN mkdir $app

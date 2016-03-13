@@ -11,10 +11,25 @@ web:
     DOCKER_HOST_IP: '10.0.2.2'
   links:
     - db
+    - redis
 db:
   image: postgres:9.4
   environment:
-    POSTGRES_PASSWORD: "password"
-    POSTGRES_USER: "user"
+    POSTGRES_PASSWORD: "78GO6i4o"
+    POSTGRES_USER: "app"
   ports:
     - "5432:5432"
+redis:
+  image: redis
+  volumes:
+    - /data/redis
+  ports:
+    - "6379:6379"
+sidekiq:
+  build: .
+  volumes:
+    - .:/app
+  command: sidekiq
+  links:
+    - db
+    - redis
