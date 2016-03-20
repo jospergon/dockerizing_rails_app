@@ -1,7 +1,7 @@
 FROM ruby:2.3.0
 
 RUN apt-get update -qq
-RUN apt-get install -y build-essential libpq-dev npm
+RUN apt-get install -y build-essential libpq-dev nodejs npm
 RUN npm install -g bower
 
 COPY Gemfile* /tmp/
