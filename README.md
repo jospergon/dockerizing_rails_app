@@ -80,3 +80,14 @@ docker-compose -f docker-compose.yml -f production.yml run web rake db:migrate
 docker-compose -f docker-compose.yml -f production.yml buld web
 docker-compose up --no-deps -d web
 ```
+
+#### TIPS
+Remove unused images
+```
+docker rmi -f $(docker images | grep "<none>" | awk "{print \$3}")
+```
+
+Remove exited containers
+```
+docker rm `docker ps -a | grep Exited | awk '{print $1 }'`
+```

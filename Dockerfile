@@ -11,12 +11,7 @@ ENV app /app
 RUN mkdir $app
 WORKDIR $app
 
-ADD Gemfile* $app/
+ENV BUNDLE_PATH /bundle
 
-ENV BUNDLE_GEMFILE=$app/Gemfile \
-  BUNDLE_JOBS=10 \
-  BUNDLE_PATH=/bundle
-
-RUN bundle install
-
+WORKDIR $app
 ADD . $app
